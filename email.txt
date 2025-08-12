@@ -1,0 +1,32 @@
+/* lexical grammar */
+%lex
+%%
+
+\s+                   /* skip whitespace */
+\.(com|cc|org|net|br)   return 'DOMINIOFINAL'
+<<EOF>>                 return 'EOF'
+// any other characters will throw an error
+.                     return 'INVALID'
+
+/lex
+
+%start emailTodo
+
+%% /* language grammar */
+
+// At the top level, you explicitly return
+// the result. $1 refers to the first child node,
+// i.e. the "e"
+
+emailTodo
+    : e EOF
+        {return $1;}
+    ;
+
+dominio
+    : 
+
+e
+    : DOMINIOFINAL
+        {$$ = $1;}
+    ;
