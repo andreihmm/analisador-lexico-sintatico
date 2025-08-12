@@ -1,0 +1,31 @@
+/* lexical grammar */
+%lex
+%%
+
+\s+                   /* skip whitespace */
+"+(55)"                  return 'CODIGO'
+"27"                    return 'DDD'
+9?\d{8}                  return 'NUMERO'
+<<EOF>>                 return 'EOF'
+// any other characters will throw an error
+.                     return 'INVALID'
+
+/lex
+
+%start numeroTodo
+
+%% /* language grammar */
+
+// At the top level, you explicitly return
+// the result. $1 refers to the first child node,
+// i.e. the "e"
+
+numeroTodo
+    : e EOF
+        {return $1;}
+    ;
+
+e
+    : CODIGO DDD NUMERO
+        {$$ = $1 + $2 + $3;}
+    ;
