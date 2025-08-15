@@ -1,0 +1,33 @@
+/* lexical grammar */
+%lex
+%%
+
+[\d]+                  return 'NUMERO'
+'?'                    return 'OPERADOR'
+<<EOF>>                return 'EOF'
+
+/lex
+
+%start resultado
+
+%% /* language grammar */
+
+resultado
+    : calculo EOF
+        {return $1;}
+    ;
+
+calculo
+    : 'NUMERO' 'OPERADOR'
+       {$$ = fib($1);}
+    ;
+%%
+
+function fib(n) {
+  var aux=1;
+  var i;
+  for(i=1;i<=n;i+aux){
+    aux=i;
+  }
+  return i;
+}
