@@ -1,0 +1,32 @@
+/* lexical grammar */
+%lex
+%%
+
+[\d]+                  return 'NUMERO'
+'!'                    return 'OPERADOR'
+<<EOF>>                return 'EOF'
+
+/lex
+
+%start resultado
+
+%% /* language grammar */
+
+resultado
+    : calculo EOF
+        {return $1;}
+    ;
+
+calculo
+    : 'NUMERO' 'OPERADOR'
+       {$$ = fact($1)}
+    ;
+%%
+
+function fact(n) {
+  var tot=1;
+  for(var i=2;i<=n;++i) {
+    tot*=i;
+  }
+  return tot;
+}
