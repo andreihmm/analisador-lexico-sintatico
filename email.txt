@@ -3,10 +3,11 @@
 %%
 
 \s+                   /* skip whitespace */
-\.(com|cc|org|net|br)   return 'DOMINIOFINAL'
+^[^@]+'@'               return 'USERNAME'
+([^.]+)                 return 'DOMINIOMEIO'
+.(com|cc|org|net|br)    return 'DOMINIOFINAL'
 <<EOF>>                 return 'EOF'
-// any other characters will throw an error
-.                     return 'INVALID'
+
 
 /lex
 
@@ -19,14 +20,16 @@
 // i.e. the "e"
 
 emailTodo
-    : e EOF
-        {return $1;}
+    : nomeUsuario dominio EOF
+        {return $1 + $2;}
     ;
 
-dominio
-    : 
+nomeUsuario
+   : 'USERNAME'
+        {$$ = $1}
+   ;
 
-e
-    : DOMINIOFINAL
-        {$$ = $1;}
+dominio
+    : 'DOMINIOMEIO' 'DOMINIOFINAL'
+        {$$ = $1 + $2}
     ;
