@@ -1,0 +1,31 @@
+/* lexical grammar */
+%lex
+%%
+
+\s+                     /* skip whitespace */
+[\d]+                  return 'NUMERO';
+'log'                  return 'OPERADOR';
+<<EOF>>                return 'EOF';
+
+%%
+
+/lex
+
+%start resultado
+
+%% /* language grammar */
+
+resultado
+    : calculo EOF
+        { return $1; }
+    ;
+
+calculo
+    : OPERADOR NUMERO
+       { $$ = logas($2); }
+    ;
+%%
+
+function logas(n) {
+    return Math.log2(n);
+}
