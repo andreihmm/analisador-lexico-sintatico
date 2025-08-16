@@ -24,10 +24,14 @@ calculo
 %%
 
 function fib(n) {
-  var aux=1;
-  var i;
-  for(i=1;i<=n;i+aux){
-    aux=i;
+  var aux;
+  var atual = 1;
+  var anterior=0;
+  for(var i = 1; i<=n;i++)
+  {
+    aux=anterior;
+    anterior=atual;
+    atual=atual+aux;
   }
-  return i;
+  return anterior;
 }
